@@ -1,5 +1,5 @@
 import { type APIToDoResponse } from '../types/types'
-import './ToDoCard.scss'
+import '../styles/ToDoCard.scss'
 
 interface ToDoCardProps {
 	toDo: APIToDoResponse

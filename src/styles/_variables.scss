@@ -1,6 +1,11 @@
+$Bg-color: #292929;
 $primary-color: #00abd6;
 $secondary-color: #e9ab00;
 $tertiary-color: #e51a4c;
+$white-color: #fff;
+$gray-color: #eaeaeaaf;
+$green-color: #00c400af;
+$celeste-color: #80bfff;
 
 // Card
 // Border radius
@@ -23,7 +28,7 @@ $percentage: 75%;
 	.percentage {
 		background-color: $color;
 		border-top-left-radius: $BR + -2px;
-		width: $percentage;
+		width: calc($percentage + 1px);
 		height: $Height;
 
 		&::after {

@@ -4,8 +4,9 @@
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 	gap: 1rem;
+	align-items: center;
+	justify-content: center;
 
-	// Los estilos generales de nuestras tarjetas
 	article {
 		width: 100%;
 		position: relative;

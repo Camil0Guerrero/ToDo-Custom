@@ -16,6 +16,7 @@ body {
 	font-size: 16px;
 	background-color: #292929;
 	color: white;
+	margin: 0 16px;
 }
 
 h1,
@@ -29,4 +30,15 @@ h1 {
 	font-size: 3rem;
 	text-align: center;
 	padding: 0.5rem;
+}
+
+.open-add-item {
+	width: 2rem;
+	aspect-ratio: 1/1;
+	background-color: transparent;
+	border: none;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

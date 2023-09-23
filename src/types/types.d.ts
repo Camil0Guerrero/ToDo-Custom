@@ -1,7 +1,7 @@
 export type APIToDoResponse = {
 	description: string
 	dueDate: Date
-	id: number
-	priority: 'baja' | 'media' | 'alta'
+	id?: number
+	priority: 'low' | 'medium' | 'height'
 	title: string
 }
