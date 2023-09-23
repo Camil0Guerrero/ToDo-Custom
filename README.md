@@ -72,3 +72,7 @@ En este paso empezare a mostrar algo en pantalla, para esto cree el componente T
 #### 5. Crear el componente de la tarea
 
 Luego de que nuestras tareas se estén mostrando como lo hemos planeado, es hora de poder agregar una nueva tarea a la lista. Para esto crearemos un nuevo componente
+
+#### 6. Agregar funcionalidad al componente para poder editar una tarea
+
+Usare el mismo componente del paso anterior para tener la posibilidad de modificar una tarea
