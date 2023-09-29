@@ -26,7 +26,7 @@ Debes crear una aplicación web que permita a los usuarios crear y gestionar una
 
 - ¿Cómo implementarías la interfaz de usuario personalizable?
 
-** Nota: ** Puedes utilizar cualquier librería o framework que desees. Esta prueba técnica fue creada por bard, por lo que puede tener algunas inconsistencias y cosas para mejorar, sin embargo, la usare para practicar, ver mi nivel actual y Seguir aprendiendo TypeScript con Sass
+**Nota:** Puedes utilizar cualquier librería o framework que desees. Esta prueba técnica fue creada por bard, por lo que puede tener algunas inconsistencias y cosas para mejorar, sin embargo, la usare para practicar, ver mi nivel actual y Seguir aprendiendo TypeScript con Sass
 
 ## Solución
 
@@ -76,3 +76,15 @@ Luego de que nuestras tareas se estén mostrando como lo hemos planeado, es hora
 #### 6. Agregar funcionalidad al componente para poder editar una tarea
 
 Usare el mismo componente del paso anterior para tener la posibilidad de modificar una tarea
+
+#### 7. Creación del header
+
+En el header agregaremos todos los filtros que necesitamos para poder ordenar nuestras tareas
+
+#### 8. Mejorar Estilos
+
+Aunque los estilos no están tan mal, creo que se pueden ver un poco mejor, ademas, veré como puedo integrar TypeScript con Sass para realizar nuestro siguiente paso lo mejor posible
+
+#### 9. Creación del footer
+
+En el footer daremos a nuestro usuario la posibilidad de personalizar los colores de nuestro sitio web
