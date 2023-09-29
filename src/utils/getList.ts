@@ -1,4 +1,4 @@
-import { type APIToDoResponse } from '../types/types'
+import { type APIToDoResponse } from '../types.d'
 
 async function getList() {
 	const res = await fetch('http://localhost:5173/data.json')

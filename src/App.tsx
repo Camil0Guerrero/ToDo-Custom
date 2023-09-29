@@ -1,87 +1,131 @@
+import { useEffect, useRef, useState } from 'react'
+
 import getList from './utils/getList'
-import { useEffect, useState } from 'react'
-import { APIToDoResponse } from './types/types'
+import { APIToDoResponse, FiltersType } from './types.d'
 import ToDoCard from './components/ToDoCard'
 import './styles/main.scss'
 import ToDoItem from './components/ToDoItem'
+import { AddTaskIcon } from './components/Icons'
+import Header from './components/Header'
+
+const filtersInitialState: FiltersType = {
+	completed: false,
+	dueDate: '',
+	priority: 'all',
+	title: '',
+	search: '',
+}
 
 function App() {
 	const [toDos, setToDo] = useState<APIToDoResponse[]>([])
+	const [dataToEdit, setDataToEdit] = useState<APIToDoResponse | null>(null)
 	const [open, setOpen] = useState<boolean>(false)
+	const [filters, setFilters] = useState<FiltersType>(filtersInitialState)
+
+	const originalList = useRef<APIToDoResponse[]>([])
 
 	useEffect(() => {
-		getList()
-			.then(res => {
-				setToDo(res)
-			})
-			.catch(err => console.error(err))
+		getList().then(res => {
+			setToDo(res)
+			originalList.current = res
+		})
 	}, [])
 
+	useEffect(() => {
+		const filteredList = originalList.current.filter(toDo => {
+			if (filters.title) {
+				if (!toDo.title.toLocaleLowerCase().includes(filters.title.toLocaleLowerCase()))
+					return false
+			}
+
+			if (filters.search) {
+				if (!toDo.title.toLocaleLowerCase().includes(filters.search.toLocaleLowerCase()))
+					return false
+			}
+
+			if (filters.dueDate) {
+				return toDo.dueDate >= filters.dueDate
+			}
+
+			if (filters.priority) {
+				if (filters.priority === 'all') return true
+				if (filters.priority !== toDo.priority) return false
+			}
+
+			return true
+		})
+
+		setToDo(filteredList)
+	}, [filters])
+
 	const addTask = (task: APIToDoResponse) => {
+		if (task.id) {
+			const index = toDos.findIndex(toDo => toDo.id === task.id)
+
+			toDos[index] = task
+
+			setToDo([...toDos])
+			setDataToEdit(null)
+			setOpen(false)
+
+			return
+		}
+
 		task.id = toDos.length + 1
 		setToDo([...toDos, task])
+		setDataToEdit(null)
+		setOpen(false)
 	}
 
 	const changeOpen = () => {
 		setOpen(!open)
 	}
 
+	const editTask = (task: APIToDoResponse) => {
+		setDataToEdit(task)
+	}
+
+	const addFilter = (filter: (filters: FiltersType) => FiltersType) => {
+		setFilters(filter)
+
+		return filters
+	}
+
 	return (
 		<>
-			<h1>Lista de tareas</h1>
-			{toDos.length === 0 && <h2>Let's to Work</h2>}
+			<Header addFilter={addFilter} />
+
+			{toDos.length === 0 && <h2>No tienes tareas</h2>}
 
 			{toDos.length > 0 && (
 				<article className='to-dos'>
-					{toDos.map(toDo => (
-						<ToDoCard key={toDo.id} toDo={toDo} />
-					))}
+					{toDos.map(toDo => {
+						if (toDo.id === dataToEdit?.id) {
+							return (
+								<ToDoItem
+									key={toDo.id}
+									addTask={addTask}
+									changeOpen={changeOpen}
+									data={dataToEdit!}
+								/>
+							)
+						}
 
-					{!open && (
+						return <ToDoCard key={toDo.id} editTask={editTask} toDo={toDo} />
+					})}
+
+					{!open && filters === filtersInitialState && (
 						<label>
-							Agregar nueva tarea:
+							Nueva tarea:
 							<br />
-							<button className='open-add-item' onClick={() => changeOpen()}>
-								<svg
-									width='150px'
-									height='150px'
-									viewBox='0 0 1024.00 1024.00'
-									version='1.1'
-									xmlns='http://www.w3.org/2000/svg'
-									fill='#000000'
-									stroke='#000000'
-									stroke-width='0.01024'
-								>
-									<g id='SVGRepo_bgCarrier' stroke-width='0'></g>
-									<g
-										id='SVGRepo_tracerCarrier'
-										stroke-linecap='round'
-										stroke-linejoin='round'
-										stroke='#CCCCCC'
-										stroke-width='2.048'
-									></g>
-									<g id='SVGRepo_iconCarrier'>
-										<path
-											d='M512 1024C229.7 1024 0 794.3 0 512S229.7 0 512 0s512 229.7 512 512-229.7 512-512 512z m0-938.7C276.7 85.3 85.3 276.7 85.3 512S276.7 938.7 512 938.7 938.7 747.3 938.7 512 747.3 85.3 512 85.3z'
-											fill='#3688FF'
-										></path>
-										<path
-											d='M682.7 554.7H341.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h341.3c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.6 42.7z'
-											fill='#fff'
-										></path>
-										<path
-											d='M512 725.3c-23.6 0-42.7-19.1-42.7-42.7V341.3c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v341.3c0 23.6-19.1 42.7-42.7 42.7z'
-											fill='#fff'
-										></path>
-									</g>
-								</svg>
-							</button>
+							<AddTaskIcon height='40px' width='40px' onClick={() => changeOpen()} />
 						</label>
 					)}
-					{open && <ToDoItem addTask={addTask} changeOpen={changeOpen} />}
+					{open && <ToDoItem addTask={addTask} changeOpen={changeOpen} data={dataToEdit!} />}
 				</article>
 			)}
 		</>
 	)
 }
+
 export default App

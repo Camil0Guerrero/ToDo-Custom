@@ -3,21 +3,21 @@
 		"description": "Escribir un correo electrónico a un cliente para informarle sobre un nuevo producto",
 		"dueDate": "2023-09-20",
 		"id": 1,
-		"priority": "alta",
+		"priority": "high",
 		"title": "Escribir un correo electrónico"
 	},
 	{
 		"description": "Programar una reunión con el equipo de desarrollo para discutir un nuevo proyecto",
 		"dueDate": "2023-09-21",
 		"id": 2,
-		"priority": "media",
+		"priority": "medium",
 		"title": "Programar una reunión"
 	},
 	{
 		"description": "Investigar un nuevo tema para un artículo que estoy escribiendo",
 		"dueDate": "2023-09-22",
 		"id": 3,
-		"priority": "baja",
+		"priority": "low",
 		"title": "Investigar un nuevo tema"
 	}
 ]
