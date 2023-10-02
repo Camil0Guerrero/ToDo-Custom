@@ -1,0 +1,68 @@
+.header {
+	padding: 0.5rem;
+	border-radius: var(--BR, 5px);
+	box-shadow: 0 0 0.2rem var(--primary-color, #00abd6);
+	width: 90%;
+	margin: 0 auto;
+	padding-left: 1rem;
+	margin-bottom: 2rem;
+}
+
+.header h1 {
+	margin: 0;
+	padding: 0;
+	color: transparent;
+	background-clip: text;
+	background-image: linear-gradient(
+		to right,
+		var(--celeste-color, #80bfff) 30%,
+		var(--tertiary-color, #e51e4c)
+	);
+	margin-bottom: 1rem;
+}
+
+.header label {
+	color: color-mix(var(--white-color, #fff), black, 20%);
+	font-size: 0.8rem;
+	margin-right: 0.5rem;
+}
+
+.form-filters {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.form-filters input,
+.form-filters textarea,
+.form-filters select {
+	background-color: transparent;
+	border: none;
+	border-radius: var(--BR, 5px);
+	text-align: center;
+	padding: 5px;
+	color: var(--white-color, #fff);
+}
+
+.form-filters input,
+.form-filters textarea,
+.form-filters select ::placeholder {
+	color: color-mix(var(--white-color, #fff), black, 20%);
+}
+
+.form-filters input,
+.form-filters textarea,
+.form-filters select :focus {
+	outline: none;
+}
+
+.form-filters input {
+	color: color-mix(var(--celeste-color, #00abd6), white, 20%);
+	border-bottom: 1px solid var(--gray-color, #eaeaeaaf);
+	margin: 0.3rem;
+	caret-shape: underscore;
+	caret-color: var(--celeste-color, #00abd6);
+}
+
+.form-filters input:focus {
+	outline: 1px solid var(--celeste-color, #00abd6);
+}

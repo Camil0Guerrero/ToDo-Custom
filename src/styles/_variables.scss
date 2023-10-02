@@ -17,36 +17,3 @@ $priority-1: #e51a4c;
 $priority-2: #e9ab00;
 $priority-3: #00abd6;
 $percentage: 75%;
-
-// Mixin
-// Dare color según la prioridad de la tarea, por lo que creare un mixin para reutilizarlo
-@mixin priority($color) {
-	border: 1px solid darken($color, $amount: 20%);
-	border-radius: $BR;
-
-	// En el porcentaje hare un quiebre al final para que se vea mucho mejor
-	.percentage {
-		background-color: $color;
-		border-top-left-radius: $BR + -2px;
-		width: calc($percentage + 1px);
-		height: $Height;
-
-		&::after {
-			content: '';
-			display: block;
-			position: absolute;
-			top: 0;
-			left: $percentage;
-
-			background-color: $color;
-			height: $Height;
-			width: 15px;
-
-			clip-path: polygon(0 150%, 100% 0%, 100% 0%, 0 calc(100% - 10px));
-		}
-	}
-
-	.date {
-		color: $color;
-	}
-}
