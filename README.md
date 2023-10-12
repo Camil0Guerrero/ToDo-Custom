@@ -88,3 +88,11 @@ Aunque los estilos no están tan mal, creo que se pueden ver un poco mejor, adem
 #### 9. Creación del footer
 
 En el footer daremos a nuestro usuario la posibilidad de personalizar los colores de nuestro sitio web
+
+#### 10. Refactorizar
+
+Al ver que hay muchas funciones en mi componente App y que estamos pasando muchas Props, usare UseContext para poder tener un mejor control de mi aplicación, ademas, veré si uso useReducer para manejar ciertos estados.
+
+#### 11. Persistencia de datos
+
+No creare una BD, sin embargo, usare localStorage para poder guardar los datos de mi aplicación. Ademas en este paso veré como puedo mejorar mi código para que sea mas legible y fácil de entender en el crud que he hecho ya que tiene falencias.
