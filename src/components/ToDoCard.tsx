@@ -1,14 +1,18 @@
-import { type APIToDoResponse } from '../types.d'
+import type { APIToDoResponse, Languages } from '../types.d'
 
-import '../styles/ToDoCard.scss'
+import '../styles/ToDoCard.css'
+
 import { EditTaskIcon } from './Icons'
 
 interface ToDoCardProps {
 	toDo: APIToDoResponse
 	editTask: (task: APIToDoResponse) => void
+	language: Languages
 }
 
-const getAbbreviatedMonth = (month: number) => {
+const getAbbreviatedMonth = (month: number, language?: string) => {
+	const monthsEs = ['Ene', 'Abr', 'Ago', 'Dic']
+
 	const months = [
 		'Jan',
 		'Feb',
@@ -23,6 +27,13 @@ const getAbbreviatedMonth = (month: number) => {
 		'Nov',
 		'Dec',
 	]
+
+	if (language === 'es' && (month === 0 || month === 3 || month === 7 || month === 11)) {
+		if (month === 0) return monthsEs[0]
+		if (month === 3) return monthsEs[1]
+		if (month === 7) return monthsEs[2]
+		if (month === 11) return monthsEs[3]
+	}
 
 	return months[month]
 }
@@ -44,19 +55,21 @@ const getTaskDate = (dueDate: string | Date) => {
 	return { month, day }
 }
 
-function ToDoCard({ toDo, editTask }: ToDoCardProps) {
+function ToDoCard({ toDo, editTask, language }: ToDoCardProps) {
 	const { title, dueDate, description, priority } = toDo
 
 	const { month, day } = getTaskDate(dueDate)
 
-	const priorityClass =
-		priority === 'high' ? 'priority-1' : priority === 'medium' ? 'priority-2' : 'priority-3'
+	let priorityClass = 'low-priority'
+
+	if (priority === 'Medium') priorityClass = 'medium-priority'
+	if (priority === 'High') priorityClass = 'high-priority'
 
 	return (
 		<article className={priorityClass}>
 			<div className='percentage' />
 			<h3>{title}</h3>
-			<span className='date'>{`${getAbbreviatedMonth(month - 1)} ${day}`}</span>
+			<span className='date'>{`${getAbbreviatedMonth(month - 1, language)} ${day}`}</span>
 			<p>{description}</p>
 			<EditTaskIcon onClick={() => editTask(toDo)} />
 		</article>

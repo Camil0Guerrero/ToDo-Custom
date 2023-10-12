@@ -13,16 +13,17 @@
 	padding: 0;
 	color: transparent;
 	background-clip: text;
+	-webkit-background-clip: text;
 	background-image: linear-gradient(
 		to right,
-		var(--celeste-color, #80bfff) 30%,
+		var(--primary-color, #80bfff) 30%,
 		var(--tertiary-color, #e51e4c)
 	);
 	margin-bottom: 1rem;
 }
 
 .header label {
-	color: color-mix(var(--white-color, #fff), black, 20%);
+	color: color-mix(var(--text-color, #fff), black, 20%);
 	font-size: 0.8rem;
 	margin-right: 0.5rem;
 }
@@ -40,13 +41,18 @@
 	border-radius: var(--BR, 5px);
 	text-align: center;
 	padding: 5px;
-	color: var(--white-color, #fff);
+	color: var(--text-color, #fff);
+}
+
+.form-filters input[type='date'],
+.form-filters select:hover {
+	cursor: pointer;
 }
 
 .form-filters input,
 .form-filters textarea,
 .form-filters select ::placeholder {
-	color: color-mix(var(--white-color, #fff), black, 20%);
+	color: color-mix(var(--text-color, #fff), black, 20%);
 }
 
 .form-filters input,
@@ -56,13 +62,13 @@
 }
 
 .form-filters input {
-	color: color-mix(var(--celeste-color, #00abd6), white, 20%);
-	border-bottom: 1px solid var(--gray-color, #eaeaeaaf);
+	color: color-mix(var(--primary-color, #00abd6), white, 20%);
+	border-bottom: 1px solid color-mix(var(--text-color, #fff), black, 40%);
 	margin: 0.3rem;
 	caret-shape: underscore;
-	caret-color: var(--celeste-color, #00abd6);
+	caret-color: var(--primary-color, #00abd6);
 }
 
 .form-filters input:focus {
-	outline: 1px solid var(--celeste-color, #00abd6);
+	outline: 1px solid var(--primary-color, #00abd6);
 }

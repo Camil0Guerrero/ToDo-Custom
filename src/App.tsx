@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, CSSProperties } from 'react'
 
-import getList from './utils/getList'
-import { APIToDoResponse, FiltersType } from './types.d'
-import ToDoCard from './components/ToDoCard'
-import './styles/main.scss'
-import ToDoItem from './components/ToDoItem'
-import { AddTaskIcon } from './components/Icons'
 import Header from './components/Header'
+import { AddTaskIcon } from './components/Icons'
+import ToDoCard from './components/ToDoCard'
+import ToDoItem from './components/ToDoItem'
+import Footer from './components/Footer'
+import './styles/main.css'
+import { APIToDoResponse, FiltersType, Languages, VariablesCSS } from './types.d'
+import getList from './utils/getList'
+import { COLORS, CONTENT, PROPERTIES_COLORS } from './const'
 
 const filtersInitialState: FiltersType = {
 	completed: false,
@@ -21,6 +23,13 @@ function App() {
 	const [dataToEdit, setDataToEdit] = useState<APIToDoResponse | null>(null)
 	const [open, setOpen] = useState<boolean>(false)
 	const [filters, setFilters] = useState<FiltersType>(filtersInitialState)
+	const [colors, setColors] = useState<{
+		[key in VariablesCSS]: CSSProperties['color']
+	}>({
+		...COLORS,
+		...PROPERTIES_COLORS,
+	})
+	const [language, setLanguage] = useState<Languages>('es')
 
 	const originalList = useRef<APIToDoResponse[]>([])
 
@@ -48,7 +57,7 @@ function App() {
 			}
 
 			if (filters.priority) {
-				if (filters.priority === 'all') return true
+				if (filters.priority === 'All') return true
 				if (filters.priority !== toDo.priority) return false
 			}
 
@@ -91,39 +100,73 @@ function App() {
 		return filters
 	}
 
+	const changeColors = ({
+		property,
+		color,
+	}: {
+		property: VariablesCSS
+		color: CSSProperties['color']
+	}) => {
+		setColors({
+			...colors,
+			[property]: color,
+		})
+	}
+
+	const changeLanguage = (language: Languages) => {
+		setLanguage(language)
+	}
+
 	return (
 		<>
-			<Header addFilter={addFilter} />
+			<Header addFilter={addFilter} colors={colors} language={language} />
+			<main style={colors as CSSProperties}>
+				{toDos.length === 0 && <h2>{CONTENT[language].empty}</h2>}
+				{toDos.length > 0 && (
+					<article className='to-dos'>
+						{toDos.map(toDo => {
+							if (toDo.id === dataToEdit?.id) {
+								return (
+									<ToDoItem
+										key={toDo.id}
+										addTask={addTask}
+										changeOpen={changeOpen}
+										data={dataToEdit!}
+										language={language}
+									/>
+								)
+							}
 
-			{toDos.length === 0 && <h2>No tienes tareas</h2>}
+							return <ToDoCard key={toDo.id} editTask={editTask} language={language} toDo={toDo} />
+						})}
 
-			{toDos.length > 0 && (
-				<article className='to-dos'>
-					{toDos.map(toDo => {
-						if (toDo.id === dataToEdit?.id) {
-							return (
-								<ToDoItem
-									key={toDo.id}
-									addTask={addTask}
-									changeOpen={changeOpen}
-									data={dataToEdit!}
+						{!open && (
+							<label>
+								<AddTaskIcon
+									fill={colors['--secondary-color']}
+									height='40px'
+									width='40px'
+									onClick={() => changeOpen()}
 								/>
-							)
-						}
-
-						return <ToDoCard key={toDo.id} editTask={editTask} toDo={toDo} />
-					})}
-
-					{!open && filters === filtersInitialState && (
-						<label>
-							Nueva tarea:
-							<br />
-							<AddTaskIcon height='40px' width='40px' onClick={() => changeOpen()} />
-						</label>
-					)}
-					{open && <ToDoItem addTask={addTask} changeOpen={changeOpen} data={dataToEdit!} />}
-				</article>
-			)}
+							</label>
+						)}
+						{open && (
+							<ToDoItem
+								addTask={addTask}
+								changeOpen={changeOpen}
+								data={dataToEdit!}
+								language={language}
+							/>
+						)}
+					</article>
+				)}
+			</main>
+			<Footer
+				changeColors={changeColors}
+				changeLanguage={changeLanguage}
+				colors={colors}
+				language={language}
+			/>
 		</>
 	)
 }

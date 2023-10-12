@@ -1,0 +1,57 @@
+footer svg {
+	position: absolute;
+	right: 0.5rem;
+	bottom: 0.5rem;
+}
+
+.custom-page {
+	background-color: hsla(212, 94%, 28%, 0.473);
+	background-color: color-mix(in srgb, hsla(212, 94%, 28%, 0.473) 50%, var(--bg-color));
+	padding: 0.5rem;
+	position: absolute;
+	right: 1.5rem;
+	bottom: 2.5rem;
+	border-radius: 5px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 0.2rem;
+}
+
+.custom-page h4 {
+	padding: 0.25rem;
+	margin: 0;
+}
+
+.custom-page label {
+	text-align: right;
+	direction: rtl;
+
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+}
+
+/* Le he puesto un div antes del input ya que de esta forma podre agregarle un redondeo al los bordes */
+.custom-page label div {
+	width: 2rem;
+	height: 0.8rem;
+
+	display: grid;
+	place-content: center;
+
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.custom-page label input {
+	width: 2.2rem;
+	height: 1rem;
+
+	/* Quitamos los estilos que el navegador da por defecto a el input de tipo 'color' */
+	padding: 0;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}

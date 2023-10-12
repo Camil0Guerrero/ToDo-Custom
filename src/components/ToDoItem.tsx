@@ -1,20 +1,25 @@
+import type { APIToDoResponse, Languages } from '../types'
+
 import React, { FormEvent, useState } from 'react'
 
-import { type APIToDoResponse } from '../types.d'
+import '../styles/ToDoItem.css'
 import { getDate } from '../utils/getDate'
-import '../styles/ToDoItem.scss'
+import { CONTENT, PRIORITIES } from '../const'
+
+import Select from './Select'
 
 interface ToDoItemProps {
 	data?: APIToDoResponse
 	addTask: (task: APIToDoResponse) => void
 	changeOpen: () => void
+	language: Languages
 }
 
-function ToDoItem({ data, addTask, changeOpen }: ToDoItemProps) {
+function ToDoItem({ data, addTask, changeOpen, language }: ToDoItemProps) {
 	const [form, setForm] = useState({
 		description: data?.description || '',
 		dueDate: data?.dueDate.toString() || getDate(),
-		priority: data?.priority || 'low',
+		priority: data?.priority || PRIORITIES.Low,
 		title: data?.title || '',
 		id: data?.id || undefined,
 	})
@@ -45,50 +50,65 @@ function ToDoItem({ data, addTask, changeOpen }: ToDoItemProps) {
 		setForm({
 			description: '',
 			dueDate: getDate(),
-			priority: 'low',
+			priority: PRIORITIES.Low,
 			title: '',
 			id: undefined,
 		})
 	}
 
+	const options = Object.entries(PRIORITIES)
+		.filter(([key, value]) => {
+			if (key === 'All') return false
+
+			return {
+				value: key,
+				label: value,
+			}
+		})
+		.map(([key, value]) => ({
+			value: key,
+			label: value,
+		}))
+
 	return (
-		<>
-			<form className='form-add-ToDo' onSubmit={handleSubmit}>
+		<form className='form-add-ToDo' onSubmit={handleSubmit}>
+			<input
+				name='title'
+				placeholder={CONTENT[language].FormAddTask.title.placeholder}
+				type='text'
+				value={form.title}
+				onChange={handleChange}
+			/>
+			<textarea
+				name='description'
+				placeholder={CONTENT[language].FormAddTask.description.placeholder}
+				value={form.description}
+				onChange={handleChange}
+			/>
+			<div className='options'>
+				<label>{CONTENT[language].FormAddTask.deadLine}</label>
 				<input
-					name='title'
-					placeholder='Titulo de la tarea'
-					type='text'
-					value={form.title}
+					min={getDate()}
+					name='dueDate'
+					type='date'
+					value={form.dueDate.toString() > getDate() ? form.dueDate.toString() : getDate()}
 					onChange={handleChange}
 				/>
-				<textarea
-					name='description'
-					placeholder='Agrega una breve descripción'
-					value={form.description}
-					onChange={handleChange}
-				/>
-				<div className='options'>
-					<label>Fecha de entrega:</label>
-					<input
-						min={getDate()}
-						name='dueDate'
-						type='date'
-						value={form.dueDate.toString() > getDate() ? form.dueDate.toString() : getDate()}
+				<label>
+					{CONTENT[language].FormAddTask.priority.content}
+					<Select
+						name='priority'
+						options={options}
+						placeholder={CONTENT[language].FormAddTask.priority.placeholder}
 						onChange={handleChange}
 					/>
-					<label htmlFor='priority'>Prioridad:</label>
-					<select id='priority' name='priority' value={form.priority} onChange={handleChange}>
-						<option value='low'>Baja</option>
-						<option value='medium'>Media</option>
-						<option value='high'>Alta</option>
-					</select>
-				</div>
-				<button type='submit'>Agregar</button>
-				<button className='close-item' onClick={() => changeOpen()}>
-					X
-				</button>
-			</form>
-		</>
+				</label>
+			</div>
+			<button type='submit'>{CONTENT[language].FormAddTask.button}</button>
+			<button className='close-item' onClick={() => changeOpen()}>
+				X
+			</button>
+		</form>
 	)
 }
 

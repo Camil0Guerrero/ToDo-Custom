@@ -1,12 +1,13 @@
 .form-add-ToDo {
 	border: 1px solid var(--gray-color, #eaeaeaaf);
+	border-radius: var(--BR);
 	position: relative;
-	color: var(--white-color, #fff);
+	color: var(--text-color, #fff);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	overflow: hidden;
-	caret-color: var(--celeste-color, #80bfff);
+	caret-color: var(--text-color, #eaeaeaaf);
 	caret-shape: underscore;
 }
 
@@ -17,20 +18,20 @@
 	border: none;
 	text-align: center;
 	padding: 5px;
-	color: var(--white-color, #fff);
+	color: var(--text-color, #fff);
+	border-radius: var(--BR, 5px);
 }
 
-.form-add-ToDo input,
-.form-add-ToDo textarea,
+.form-add-ToDo input::placeholder,
+.form-add-ToDo textarea::placeholder,
 .form-add-ToDo select::placeholder {
-	color: darken(var(--white-color, #fff), 20%);
+	color: color-mix(in srgb, var(--text-color, #fff), black 20%);
 }
 
-.form-add-ToDo input,
-.form-add-ToDo textarea,
+.form-add-ToDo input:focus,
+.form-add-ToDo textarea:focus,
 .form-add-ToDo select:focus {
-	outline: none;
-	border-bottom: 1px solid var(--gray-color, #eaeaeaaf);
+	outline: 1px solid var(--secondary-color, #eaeaeaaf);
 }
 
 .form-add-ToDo input[name='title'] {
@@ -56,14 +57,14 @@
 }
 
 .form-add-ToDo input[type='date'] {
-	color: var(--white-color, #fff);
+	color: var(--text-color, #fff);
 	background-color: transparent;
 	border: none;
 }
 
 .form-add-ToDo input[type='date']:focus {
 	outline: none;
-	border-bottom: 1px solid var(--gray-color, #eaeaeaaf);
+	border-bottom: 1px solid var(--secondary-color, #eaeaeaaf);
 }
 
 .form-add-ToDo input[type='date']::-webkit-calendar-picker-indicator {
@@ -73,22 +74,12 @@
 
 .form-add-ToDo select {
 	border-radius: var(--BR, 5px);
-	padding: 0.25rem;
+	padding: 0.25rem 0.5rem;
 	margin-bottom: 0.5rem;
 }
 
 .form-add-ToDo select:focus {
-	border-bottom: none;
-	background-color: color-mix(in srgb, white 20%, var(--bg-color, #292929));
-}
-
-.form-add-ToDo option {
-	appearance: none;
-	background-color: var(--bg-color, #292929);
-}
-
-.form-add-ToDo option:hover {
-	background-color: color-mix(in srgb, white 20%, var(--bg-color, #292929));
+	background-color: color-mix(in srgb, var(--secondary-color, #eaeaeaaf), black 20%);
 }
 
 .form-add-ToDo button[type='submit'] {
@@ -96,32 +87,34 @@
 	bottom: 0.5rem;
 	right: 0.5rem;
 
-	background-color: darken(var(--celeste-color, #80bfff), 20%);
+	background-color: color-mix(in srgb, var(--secondary-color, #e9ab00), black 30%);
 	border-radius: var(--BR, 5px);
 	border: none;
-	color: var(--white-color, #fff);
+	color: var(--text-color, #fff);
 	padding: 0.25rem 0.5rem;
 	font-size: 0.675rem;
 	font-weight: 500;
 	cursor: pointer;
 
-	transition: background-color 200ms ease-in-out, font-weight 200ms ease-in-out;
+	transition: font-size 200ms ease-in-out, background-color 200ms ease-out;
 }
 
 .form-add-ToDo button[type='submit']:hover {
-	background-color: darken(var(--celeste-color, #80bfff), 50%);
-	font-weight: bold;
+	background-color: color-mix(in srgb, var(--secondary-color, #eaeaeaaf), black 60%);
+	font-size: 0.8rem;
 }
 
 .close-item {
 	background-color: transparent;
 	border: none;
-	color: var(--white-color, #fff);
+	color: var(--text-color, #fff);
 	font-size: 1rem;
 
 	position: absolute;
 	top: 0.5rem;
 	right: 0.5rem;
+
+	transition: transform 200ms ease-in-out;
 }
 
 .close-item:hover {

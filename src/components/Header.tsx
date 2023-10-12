@@ -1,16 +1,39 @@
-import { useEffect, useState } from 'react'
+import type { FiltersType, Languages, VariablesCSS } from '../types'
 
-import { FiltersType } from '../types.d'
+import { CSSProperties, useEffect, useState } from 'react'
+
+import '../styles/Header.css'
+
 import { getDate } from '../utils/getDate'
+import { CONTENT, PRIORITIES } from '../const'
+
+import Select from './Select'
 
 export interface HeaderProps {
 	addFilter: (filter: (filters: FiltersType) => FiltersType) => void
+	colors: {
+		[key in VariablesCSS]: CSSProperties['color']
+	}
+	language: Languages
 }
 
-function Header({ addFilter }: HeaderProps) {
+function Header({ addFilter, colors, language }: HeaderProps) {
 	const [search, setSearch] = useState({
 		name: '',
 		value: '',
+	})
+	const options = Object.entries(PRIORITIES).map(([key, value]) => {
+		if (language === 'es') {
+			return {
+				value: key,
+				label: value,
+			}
+		}
+
+		return {
+			value: key,
+			label: key,
+		}
 	})
 
 	useEffect(() => {
@@ -48,30 +71,30 @@ function Header({ addFilter }: HeaderProps) {
 	}
 
 	return (
-		<header className='header'>
-			<h1>Tareas por hacer</h1>
-			<form onSubmit={e => e.preventDefault()}>
+		<header className='header' style={colors as CSSProperties}>
+			<h1>{CONTENT[language].Title}</h1>
+			<form className='form-filters' onSubmit={e => e.preventDefault()}>
 				<label>
-					Buscar:
+					{CONTENT[language].Filters.search.content}
 					<input
 						name='title'
-						placeholder='Busca por el titulo'
+						placeholder={CONTENT[language].Filters.search.placeholder}
 						type='search'
 						onChange={handleChange}
 					/>
 				</label>
 				<label>
-					Fecha minima:
+					{CONTENT[language].Filters.minDate}
 					<input defaultValue={getDate()} name='dueDate' type='date' onChange={handleChange} />
 				</label>
 				<label>
-					Filtrar por prioridad:
-					<select name='priority' onChange={handleChange}>
-						<option value='all'>Todas</option>
-						<option value='high'>Alta</option>
-						<option value='medium'>Medio</option>
-						<option value='low'>Baja</option>
-					</select>
+					{CONTENT[language].Filters.priority.content}
+					<Select
+						name='priority'
+						options={options}
+						placeholder={CONTENT[language].Filters.priority.placeholder}
+						onChange={handleChange}
+					/>
 				</label>
 			</form>
 		</header>
