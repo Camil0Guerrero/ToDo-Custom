@@ -4,10 +4,19 @@ interface IconProps {
 	fill?: string
 	stroke?: string
 	strokeWidth?: string
+	title?: string
 	onClick?: () => void
 }
 
-export const EditTaskIcon = ({ width, height, fill, stroke, strokeWidth, onClick }: IconProps) => (
+export const EditTaskIcon = ({
+	width,
+	height,
+	fill,
+	stroke,
+	strokeWidth,
+	title,
+	onClick,
+}: IconProps) => (
 	<svg
 		fill={fill ?? 'none'}
 		height={height ?? '24px'}
@@ -16,6 +25,8 @@ export const EditTaskIcon = ({ width, height, fill, stroke, strokeWidth, onClick
 		width={width ?? '24px'}
 		onClick={onClick}
 	>
+		<title>{title}</title>
+
 		<g id='SVGRepo_bgCarrier' strokeWidth='0' />
 		<g id='SVGRepo_tracerCarrier' strokeLinecap='round' strokeLinejoin='round' />
 		<g id='SVGRepo_iconCarrier'>
@@ -47,7 +58,15 @@ export const EditTaskIcon = ({ width, height, fill, stroke, strokeWidth, onClick
 	</svg>
 )
 
-export const AddTaskIcon = ({ width, height, fill, stroke, strokeWidth, onClick }: IconProps) => (
+export const AddTaskIcon = ({
+	width,
+	height,
+	fill,
+	stroke,
+	strokeWidth,
+	title,
+	onClick,
+}: IconProps) => (
 	<svg
 		height={height ?? '150px'}
 		style={onClick ? { cursor: 'pointer' } : {}}
@@ -56,6 +75,7 @@ export const AddTaskIcon = ({ width, height, fill, stroke, strokeWidth, onClick 
 		width={width ?? '150px'}
 		onClick={onClick}
 	>
+		<title>{title}</title>
 		<g id='SVGRepo_bgCarrier' strokeWidth='0' />
 		<g
 			id='SVGRepo_tracerCarrier'
@@ -83,7 +103,15 @@ export const AddTaskIcon = ({ width, height, fill, stroke, strokeWidth, onClick 
 	</svg>
 )
 
-export const SettingIcon = ({ width, height, fill, stroke, strokeWidth, onClick }: IconProps) => (
+export const SettingIcon = ({
+	width,
+	height,
+	fill,
+	stroke,
+	strokeWidth,
+	title,
+	onClick,
+}: IconProps) => (
 	<svg
 		fill={fill ?? 'none'}
 		height={height ?? '24'}
@@ -92,6 +120,7 @@ export const SettingIcon = ({ width, height, fill, stroke, strokeWidth, onClick 
 		width={width ?? '24'}
 		onClick={onClick}
 	>
+		<title>{title}</title>
 		<g id='SVGRepo_bgCarrier' strokeWidth='0' />
 		<g id='SVGRepo_tracerCarrier' strokeLinecap='round' strokeLinejoin='round' />
 		<g id='SVGRepo_iconCarrier'>
@@ -111,6 +140,44 @@ export const SettingIcon = ({ width, height, fill, stroke, strokeWidth, onClick 
 				strokeLinecap='round'
 				strokeLinejoin='round'
 				strokeMiterlimit='10'
+				strokeWidth={strokeWidth ?? '1.5'}
+			/>
+		</g>
+	</svg>
+)
+
+export const RemoveTaskIcon = ({
+	width,
+	height,
+	fill,
+	stroke,
+	strokeWidth,
+	onClick,
+	title,
+}: IconProps) => (
+	<svg
+		fill='none'
+		height={height ?? '24'}
+		style={onClick ? { cursor: 'pointer' } : {}}
+		viewBox='0 0 24 24'
+		width={width ?? '24'}
+		xlinkTitle='Remove task'
+		onClick={onClick}
+	>
+		<title>{title}</title>
+		<g id='SVGRepo_bgCarrier' strokeWidth='0' />
+		<g id='SVGRepo_tracerCarrier' strokeLinecap='round' strokeLinejoin='round' />
+		<g id='SVGRepo_iconCarrier'>
+			<path
+				d='M8 6H19C19.5523 6 20 6.44772 20 7V17C20 17.5523 19.5523 18 19 18H8L2 12L8 6Z'
+				fill={fill ?? '#e01b24'}
+				opacity='0.15'
+			/>
+			<path
+				d='M16 9L13.0001 11.9999M13.0001 11.9999L10 15M13.0001 11.9999L10.0002 9M13.0001 11.9999L16.0002 15M8 6H19C19.5523 6 20 6.44772 20 7V17C20 17.5523 19.5523 18 19 18H8L2 12L8 6Z'
+				stroke={stroke ?? '#e01b24'}
+				strokeLinecap='round'
+				strokeLinejoin='round'
 				strokeWidth={strokeWidth ?? '1.5'}
 			/>
 		</g>
