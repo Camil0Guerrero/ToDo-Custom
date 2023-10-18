@@ -34,12 +34,15 @@
 	font-size: 0.8rem;
 }
 
-.to-dos article svg {
+.to-dos article .icons {
 	position: absolute;
-	width: 1rem;
+	width: 2rem;
 	height: 1rem;
 	bottom: 0.5rem;
 	right: 0.5rem;
+
+	display: flex;
+	justify-content: space-between;
 }
 
 [class*='priority'] {

@@ -1,41 +1,18 @@
-import type { APIToDoResponse, Languages } from '../types.d'
+import type { ToDoType, Languages } from '../types.d'
 
 import '../styles/ToDoCard.css'
 
-import { EditTaskIcon } from './Icons'
+import { useState } from 'react'
+
+import { getAbbreviatedMonth } from '../utils/getAbbreviateMonth'
+import { useToDo } from '../hooks/useToDo'
+
+import { EditTaskIcon, RemoveTaskIcon } from './Icons'
+import Confirm from './Confirm'
 
 interface ToDoCardProps {
-	toDo: APIToDoResponse
-	editTask: (task: APIToDoResponse) => void
+	toDo: ToDoType
 	language: Languages
-}
-
-const getAbbreviatedMonth = (month: number, language?: string) => {
-	const monthsEs = ['Ene', 'Abr', 'Ago', 'Dic']
-
-	const months = [
-		'Jan',
-		'Feb',
-		'Mar',
-		'Apr',
-		'May',
-		'Jun',
-		'Jul',
-		'Aug',
-		'Sep',
-		'Oct',
-		'Nov',
-		'Dec',
-	]
-
-	if (language === 'es' && (month === 0 || month === 3 || month === 7 || month === 11)) {
-		if (month === 0) return monthsEs[0]
-		if (month === 3) return monthsEs[1]
-		if (month === 7) return monthsEs[2]
-		if (month === 11) return monthsEs[3]
-	}
-
-	return months[month]
 }
 
 const getTaskDate = (dueDate: string | Date) => {
@@ -55,8 +32,11 @@ const getTaskDate = (dueDate: string | Date) => {
 	return { month, day }
 }
 
-function ToDoCard({ toDo, editTask, language }: ToDoCardProps) {
+function ToDoCard({ toDo, language }: ToDoCardProps) {
+	const [confirm, setConfirm] = useState<boolean | null>(null)
 	const { title, dueDate, description, priority } = toDo
+
+	const { removeTask, changeData } = useToDo()
 
 	const { month, day } = getTaskDate(dueDate)
 
@@ -71,7 +51,32 @@ function ToDoCard({ toDo, editTask, language }: ToDoCardProps) {
 			<h3>{title}</h3>
 			<span className='date'>{`${getAbbreviatedMonth(month - 1, language)} ${day}`}</span>
 			<p>{description}</p>
-			<EditTaskIcon onClick={() => editTask(toDo)} />
+			{!confirm && (
+				<div className='icons'>
+					<RemoveTaskIcon
+						strokeWidth='1.3'
+						onClick={() => {
+							setConfirm(true)
+
+							setTimeout(() => {
+								setConfirm(false)
+							}, 3000)
+						}}
+					/>
+					<EditTaskIcon onClick={() => changeData(toDo)} />
+				</div>
+			)}
+			{confirm && (
+				<div className='confirm-container'>
+					<Confirm
+						cancel={() => setConfirm(null)}
+						cancelText='No'
+						success={() => removeTask(toDo.id!)}
+						successText='Si'
+						title='Seguro?'
+					/>
+				</div>
+			)}
 		</article>
 	)
 }

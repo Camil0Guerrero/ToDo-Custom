@@ -1,25 +1,23 @@
-import type { APIToDoResponse, Languages } from '../types'
+import type { ToDoType } from '../types'
 
 import React, { FormEvent, useState } from 'react'
 
 import '../styles/ToDoItem.css'
 import { getDate } from '../utils/getDate'
 import { CONTENT, PRIORITIES } from '../const'
+import { useToDo } from '../hooks/useToDo'
+import { usePreferences } from '../hooks/usePreferences'
 
 import Select from './Select'
 
-interface ToDoItemProps {
-	data?: APIToDoResponse
-	addTask: (task: APIToDoResponse) => void
-	changeOpen: () => void
-	language: Languages
-}
+function ToDoItem({ data }: { data?: ToDoType }) {
+	const { addTask, changeOpen, changeData, editTask } = useToDo()
+	const { language } = usePreferences()
 
-function ToDoItem({ data, addTask, changeOpen, language }: ToDoItemProps) {
 	const [form, setForm] = useState({
 		description: data?.description || '',
 		dueDate: data?.dueDate.toString() || getDate(),
-		priority: data?.priority || PRIORITIES.Low,
+		priority: data?.priority || 'Low',
 		title: data?.title || '',
 		id: data?.id || undefined,
 	})
@@ -40,17 +38,30 @@ function ToDoItem({ data, addTask, changeOpen, language }: ToDoItemProps) {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		const Task = {
+		const task = {
 			...form,
 			dueDate: new Date(form.dueDate),
 		}
 
-		addTask(Task)
+		if (task.id) {
+			editTask(task)
 
+			setForm({
+				description: '',
+				dueDate: getDate(),
+				priority: 'Low',
+				title: '',
+				id: undefined,
+			})
+			changeData(null)
+
+			return
+		}
+		addTask(task)
 		setForm({
 			description: '',
 			dueDate: getDate(),
-			priority: PRIORITIES.Low,
+			priority: 'Low',
 			title: '',
 			id: undefined,
 		})
@@ -91,12 +102,17 @@ function ToDoItem({ data, addTask, changeOpen, language }: ToDoItemProps) {
 					min={getDate()}
 					name='dueDate'
 					type='date'
-					value={form.dueDate.toString() > getDate() ? form.dueDate.toString() : getDate()}
+					value={
+						new Date(form.dueDate).getTime() > new Date(getDate()).getTime()
+							? new Date(form.dueDate).toISOString().split('T')[0]
+							: getDate()
+					}
 					onChange={handleChange}
 				/>
 				<label>
 					{CONTENT[language].FormAddTask.priority.content}
 					<Select
+						defaultValue={form.priority}
 						name='priority'
 						options={options}
 						placeholder={CONTENT[language].FormAddTask.priority.placeholder}
@@ -104,8 +120,15 @@ function ToDoItem({ data, addTask, changeOpen, language }: ToDoItemProps) {
 					/>
 				</label>
 			</div>
-			<button type='submit'>{CONTENT[language].FormAddTask.button}</button>
-			<button className='close-item' onClick={() => changeOpen()}>
+			{data?.id && <button type='submit'>{CONTENT[language].FormAddTask.buttonEdit}</button>}
+			{!data?.id && <button type='submit'>{CONTENT[language].FormAddTask.button}</button>}
+			<button
+				className='close-item'
+				onClick={() => {
+					changeData(null)
+					changeOpen(false)
+				}}
+			>
 				X
 			</button>
 		</form>

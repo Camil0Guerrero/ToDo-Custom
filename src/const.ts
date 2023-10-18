@@ -48,6 +48,7 @@ export const CONTENT = {
 				placeholder: 'Seleccione una prioridad',
 			},
 			button: 'Agregar tarea',
+			buttonEdit: 'Editar tarea',
 		},
 		Footer: {
 			SubTitle1: 'Colores de nuestra pagina',
@@ -94,6 +95,7 @@ export const CONTENT = {
 				placeholder: 'Select a priority',
 			},
 			button: 'Add task',
+			buttonEdit: 'Edit task',
 		},
 		Footer: {
 			SubTitle1: 'Our page colors',

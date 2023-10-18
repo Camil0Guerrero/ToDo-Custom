@@ -6,11 +6,12 @@ interface SelectProps {
 		label: string
 	}[]
 	onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+	defaultValue?: string
 }
 
-function Select({ name, placeholder, options, onChange }: SelectProps) {
+function Select({ name, placeholder, options, onChange, defaultValue }: SelectProps) {
 	return (
-		<select name={name} onChange={onChange}>
+		<select defaultValue={defaultValue} name={name} onChange={onChange}>
 			{options.map((option, index) => (
 				<option key={index} placeholder={placeholder} value={option.value}>
 					{option.label}

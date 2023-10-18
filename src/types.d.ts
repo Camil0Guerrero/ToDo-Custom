@@ -2,7 +2,7 @@ import { COLORS, CONTENT, PRIORITIES, PROPERTIES_COLORS } from './const'
 
 export type Priorities = (typeof PRIORITIES)[keyof typeof PRIORITIES]
 
-export type APIToDoResponse = {
+export type ToDoType = {
 	description: string
 	dueDate: Date | string
 	id?: number
@@ -31,3 +31,7 @@ export type ColorsType = {
 }
 
 export type Languages = keyof typeof CONTENT
+
+export interface ProviderProps {
+	children: React.ReactNode
+}

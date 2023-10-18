@@ -1,30 +1,17 @@
 import type { Languages, VariablesCSS } from '../types'
 
-import { useState, CSSProperties } from 'react'
+import { useState } from 'react'
 
 import { COLORS, CONTENT, PROPERTIES_COLORS } from '../const'
 import { getFriendlyName } from '../utils/getFriendlyName'
+import { usePreferences } from '../hooks/usePreferences'
 
 import { SettingIcon } from './Icons'
 
 import '../styles/Footer.css'
 
-interface FooterProps {
-	changeColors: ({
-		property,
-		color,
-	}: {
-		property: VariablesCSS
-		color: CSSProperties['color']
-	}) => void
-	changeLanguage: (language: Languages) => void
-	colors: {
-		[key in VariablesCSS]: CSSProperties['color']
-	}
-	language: Languages
-}
-
-function Footer({ changeColors, changeLanguage, colors, language }: FooterProps) {
+function Footer() {
+	const { changeColors, changeLanguage, colors, language } = usePreferences()
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const handleLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {

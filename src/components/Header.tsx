@@ -1,27 +1,23 @@
-import type { FiltersType, Languages, VariablesCSS } from '../types'
-
 import { CSSProperties, useEffect, useState } from 'react'
 
 import '../styles/Header.css'
 
 import { getDate } from '../utils/getDate'
 import { CONTENT, PRIORITIES } from '../const'
+import { useToDo } from '../hooks/useToDo'
+import { usePreferences } from '../hooks/usePreferences'
 
 import Select from './Select'
 
-export interface HeaderProps {
-	addFilter: (filter: (filters: FiltersType) => FiltersType) => void
-	colors: {
-		[key in VariablesCSS]: CSSProperties['color']
-	}
-	language: Languages
-}
+function Header() {
+	const { addFilter } = useToDo()
+	const { colors, language } = usePreferences()
 
-function Header({ addFilter, colors, language }: HeaderProps) {
 	const [search, setSearch] = useState({
 		name: '',
 		value: '',
 	})
+
 	const options = Object.entries(PRIORITIES).map(([key, value]) => {
 		if (language === 'es') {
 			return {
@@ -40,10 +36,12 @@ function Header({ addFilter, colors, language }: HeaderProps) {
 		// He decidido usar un timeout para no hacer peticiones a la API cada vez que se escribe una letra, esto nos ayuda a no hacer peticiones innecesarias y controlar un poco mas el renderizado de nuestro componente
 
 		const sendRequest = setTimeout(() => {
-			addFilter(filters => ({
-				...filters,
-				[search.name]: search.value,
-			}))
+			const { name, value } = search
+
+			addFilter({
+				name,
+				value,
+			})
 		}, 500)
 
 		return () => {
@@ -58,10 +56,10 @@ function Header({ addFilter, colors, language }: HeaderProps) {
 		const { name, value } = e.target
 
 		if (name !== 'title') {
-			addFilter(filter => ({
-				...filter,
-				[name]: value,
-			}))
+			addFilter({
+				name,
+				value,
+			})
 		}
 
 		setSearch({
