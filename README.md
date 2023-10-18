@@ -96,3 +96,7 @@ Al ver que hay muchas funciones en mi componente App y que estamos pasando mucha
 #### 11. Persistencia de datos
 
 No creare una BD, sin embargo, usare localStorage para poder guardar los datos de mi aplicación. Ademas en este paso veré como puedo mejorar mi código para que sea mas legible y fácil de entender en el crud que he hecho ya que tiene falencias.
+
+#### 12. Finalización del proyecto
+
+Aunque el proyecto pueda tener muchas mejoras, creo que ya he cumplido con lo que quería practicar y aprender con este ejercicio. Por ultimo subiré el proyecto para que cualquiera lo pueda ver y usar.
